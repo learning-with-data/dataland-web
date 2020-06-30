@@ -1,0 +1,11 @@
+.project-list-item {
+  height: 100%;
+}
+
+.project-list-item .card-text {
+  min-height: 1.1em;
+}
+
+.project-list-item .card-body:hover .card-title, .project-list-item .card-body:hover .card-text {
+  outline: dashed gray 1px;
+}

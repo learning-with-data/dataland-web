@@ -1,0 +1,73 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: password
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
+
+    steps:
+    - name: Verify MariaDB connection # Based on https://firefart.at/post/using-mysql-service-with-github-actions/
+      env:
+        PORT: ${{ job.services.mariadb.ports[3306] }}
+      run: |
+        while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
+          sleep 1
+        done
+
+    - name: Setup node v${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Checkout the backend server
+      uses: actions/checkout@v2
+      with:
+        repository: 'learning-with-data/dataland-backend'
+        path: './backendserver'
+
+    - name: Start and seed the backend server
+      working-directory: './backendserver'
+      env:
+        DATALAND_BACKEND_HOST: localhost
+        DATALAND_BACKEND_PORT: 3030
+        DATALAND_BACKEND_SECRET: gRgGX6Oru3P5uW57StSg4fc0DiNE8Ecw
+        DATALAND_BACKEND_DB_URI: ${{ format('mysql://user:password@localhost:{0}/test', job.services.mariadb.ports[3306]) }}
+      run: |
+        npm ci
+        npm start &
+        npm run db:seed:all
+
+    - name: Checkout the web repository
+      uses: actions/checkout@v2
+      with:
+        path: './webserver'
+
+    - name: Run cypress
+      uses: cypress-io/github-action@v1
+      with:
+        start: npm start
+        working-directory: './webserver'
+
+
