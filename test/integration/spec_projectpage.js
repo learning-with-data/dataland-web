@@ -49,7 +49,7 @@ describe("The project page", () => {
     cy.get(".savestatus-container > svg")
       .its("fill")
       .should("be", "darkorange");
-    cy.wait(30 * 1000);
+    cy.wait(parseInt(Cypress.env("DATALAND_AUTOSAVE_INTERVAL")) * 1000);
     cy.get(".savestatus-container > svg")
       .its("fill")
       .should("be", "darkseagreen");

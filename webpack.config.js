@@ -2,6 +2,7 @@ const path = require("path");
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
@@ -52,7 +53,6 @@ module.exports = {
       ReactDOM: path.join(process.cwd(), "node_modules/react-dom"),
     },
   },
-
   devServer: {
     contentBase: path.join(__dirname, "public/"),
     port: 3000,
@@ -70,6 +70,7 @@ module.exports = {
         },
       ],
     }),
+    new Dotenv({ systemvars: true }),
     new HtmlWebPackPlugin({
       template: "./public/index.html",
       filename: "./index.html",

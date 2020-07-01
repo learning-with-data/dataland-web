@@ -44,8 +44,8 @@ class ProjectPage extends Component {
                 this.patchProject({ projectBlob: c.buffer })
               }
               backendCodeSaveInterval={
-                30 * 1000
-              } /* Attempts a save every half minute */
+                process.env.DATALAND_AUTOSAVE_INTERVAL * 1000
+              }
               backendCodeSaveTimestamp={this.props.activeProjectSaveTimestamp}
               backendMetaDataSaveHandler={(p) => this.patchProject(p)}
             />

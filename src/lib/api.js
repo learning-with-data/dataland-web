@@ -3,7 +3,7 @@ import feathers from "@feathersjs/feathers";
 import socketio from "@feathersjs/socketio-client";
 import authentication from "@feathersjs/authentication-client";
 
-const socket = io("http://localhost:3030");
+const socket = io(process.env.DATALAND_BACKEND);
 const client = feathers();
 
 client.configure(socketio(socket));

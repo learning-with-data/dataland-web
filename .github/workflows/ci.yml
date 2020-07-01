@@ -64,6 +64,10 @@ jobs:
       with:
         path: './webserver'
 
+    - name: Move the sample .env file to .env
+      run: mv .env.sample .env
+      working-directory: './webserver'
+
     - name: Run cypress
       uses: cypress-io/github-action@v1
       with:
