@@ -6,20 +6,10 @@ import Row from "react-bootstrap/Row";
 
 import { PROJECTS_LOAD_REQUESTED } from "../../redux/actionsTypes";
 import ProjectListItem from "../ProjectListItem";
-import store from "../../redux/store";
 
 class ProjectList extends Component {
   componentDidMount() {
-    store.dispatch({
-      type: PROJECTS_LOAD_REQUESTED,
-      payload: {
-        query: {
-          $select: ["id", "title", "description", "updatedAt"],
-          $sort: { createdAt: -1 },
-          $limit: 25,
-        },
-      },
-    });
+    this.props.request_projects();
   }
 
   render() {
@@ -35,6 +25,7 @@ class ProjectList extends Component {
 
 ProjectList.propTypes = {
   projects: PropTypes.array,
+  request_projects: PropTypes.func,
 };
 
 const mapStateToProps = function (store) {
@@ -43,4 +34,15 @@ const mapStateToProps = function (store) {
   };
 };
 
-export default connect(mapStateToProps)(ProjectList);
+const request_projects = () => ({
+  type: PROJECTS_LOAD_REQUESTED,
+  payload: {
+    query: {
+      $select: ["id", "title", "description", "updatedAt"],
+      $sort: { createdAt: -1 },
+      $limit: 25,
+    },
+  },
+});
+
+export default connect(mapStateToProps, { request_projects })(ProjectList);

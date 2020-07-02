@@ -11,19 +11,15 @@ import "dataland-gui/dist/dataland-gui.css";
 import BasePage from "../BasePage";
 import LoadingPage from "../LoadingPage";
 import {
-  PROJECT_EDITOR_EXITED,
+  ACTIVE_PROJECT_UNLOADED,
   PROJECT_GET_REQUESTED,
   PROJECT_PATCH_REQUESTED,
 } from "../../redux/actionsTypes";
-import store from "../../redux/store";
 
 class ProjectPage extends Component {
   componentDidMount() {
     const pid = this.props.match.params.pid;
-    store.dispatch({
-      type: PROJECT_GET_REQUESTED,
-      payload: pid,
-    });
+    this.props.request_project_get(pid);
   }
 
   render() {
@@ -41,13 +37,15 @@ class ProjectPage extends Component {
               // The backend needs the underlying "buffer" of the Uint8Array, otherwise,
               // we end up with [object Object] string in the DB
               backendCodeSaveHandler={(c) =>
-                this.patchProject({ projectBlob: c.buffer })
+                this.props.request_project_patch({ projectBlob: c.buffer, id: this.props.activeProject.id })
               }
               backendCodeSaveInterval={
                 process.env.DATALAND_AUTOSAVE_INTERVAL * 1000
               }
               backendCodeSaveTimestamp={this.props.activeProjectSaveTimestamp}
-              backendMetaDataSaveHandler={(p) => this.patchProject(p)}
+              backendMetaDataSaveHandler={(p) =>
+                this.props.request_project_patch({...p, id: this.props.activeProject.id})
+              }
             />
           </div>
         </BasePage>
@@ -56,15 +54,7 @@ class ProjectPage extends Component {
   }
 
   componentWillUnmount() {
-    store.dispatch({ type: PROJECT_EDITOR_EXITED });
-  }
-
-  patchProject(project) {
-    console.log(project);
-    store.dispatch({
-      type: PROJECT_PATCH_REQUESTED,
-      payload: { ...project, id: this.props.activeProject.id },
-    });
+    this.props.unload_active_project();
   }
 }
 
@@ -72,6 +62,10 @@ ProjectPage.propTypes = {
   match: PropTypes.object,
   activeProject: PropTypes.object,
   activeProjectSaveTimestamp: PropTypes.number,
+
+  request_project_get: PropTypes.func,
+  request_project_patch: PropTypes.func,
+  unload_active_project: PropTypes.func,
 };
 
 const mapStateToProps = function (store) {
@@ -81,4 +75,18 @@ const mapStateToProps = function (store) {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(ProjectPage));
+const request_project_get = (pid) => ({
+  type: PROJECT_GET_REQUESTED,
+  payload: pid,
+});
+const request_project_patch = (project) => ({
+  type: PROJECT_PATCH_REQUESTED,
+  payload: project,
+});
+const unload_active_project = () => ({ type: ACTIVE_PROJECT_UNLOADED });
+
+export default connect(mapStateToProps, {
+  request_project_get,
+  request_project_patch,
+  unload_active_project,
+})(withRouter(ProjectPage));

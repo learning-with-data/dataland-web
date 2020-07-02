@@ -14,4 +14,4 @@ export const PROJECT_PATCH_REQUESTED = "project_patch_requested";
 export const PROJECT_PATCH_SUCCESS = "project_patch_success";
 export const PROJECT_GET_REQUESTED = "project_get_requested";
 export const PROJECT_GET_SUCCESS = "project_get_success";
-export const PROJECT_EDITOR_EXITED = "project_editor_exited";
+export const ACTIVE_PROJECT_UNLOADED = "active_project_unloaded";

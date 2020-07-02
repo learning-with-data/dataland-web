@@ -3,7 +3,7 @@ import {
   PROJECTS_LOAD_SUCCESS,
   PROJECT_PATCH_SUCCESS,
   PROJECT_GET_SUCCESS,
-  PROJECT_EDITOR_EXITED,
+  ACTIVE_PROJECT_UNLOADED,
 } from "../actionsTypes";
 
 const initialState = {
@@ -54,7 +54,7 @@ function projectsReducer(state = initialState, action) {
         ...state,
         activeProject: action.payload,
       };
-    case PROJECT_EDITOR_EXITED:
+    case ACTIVE_PROJECT_UNLOADED:
       return {
         ...state,
         activeProject: {},

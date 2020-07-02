@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import { connect } from "react-redux";
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
@@ -13,7 +15,6 @@ import moment from "moment";
 import sanitizeHtml from "sanitize-html";
 
 import { PROJECT_PATCH_REQUESTED } from "../../redux/actionsTypes";
-import store from "../../redux/store";
 
 import "./style.css";
 
@@ -33,15 +34,15 @@ class ProjectListItem extends Component {
   }
 
   onFieldBlur(name) {
-    let payload;
+    let project;
 
     if (name === "draftProjectTitle") {
-      payload = {
+      project = {
         id: this.props.project.id,
         title: sanitizeHtml(this.state.draftProjectTitle, this.sanitizeConf),
       };
     } else if (name === "draftProjectDescription") {
-      payload = {
+      project = {
         id: this.props.project.id,
         description: sanitizeHtml(
           this.state.draftProjectDescription,
@@ -52,10 +53,7 @@ class ProjectListItem extends Component {
       return;
     }
 
-    store.dispatch({
-      type: PROJECT_PATCH_REQUESTED,
-      payload: payload,
-    });
+    this.props.request_project_patch(project);
   }
 
   render() {
@@ -118,6 +116,13 @@ class ProjectListItem extends Component {
 
 ProjectListItem.propTypes = {
   project: PropTypes.object,
+
+  request_project_patch: PropTypes.func,
 };
 
-export default ProjectListItem;
+const request_project_patch = (project) => ({
+  type: PROJECT_PATCH_REQUESTED,
+  payload: project,
+});
+
+export default connect(null, { request_project_patch })(ProjectListItem);
