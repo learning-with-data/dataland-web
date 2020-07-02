@@ -7,25 +7,19 @@ import PropTypes from "prop-types";
 import Navbar from "react-bootstrap/Navbar";
 
 import { AUTHENTICATION_LOGOUT_REQUESTED } from "../../redux/actionsTypes";
-import store from "../../redux/store";
 
 import DropDown from "./dropdown";
 
 function PageNavBar(props) {
   return (
     <Navbar className="navbar-expand-lg" bg="light" variant="light">
-      <Link to="/"><Navbar.Brand>DataLand</Navbar.Brand></Link>
+      <Link to="/">
+        <Navbar.Brand>DataLand</Navbar.Brand>
+      </Link>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
         {props.authenticated === true && (
-          <DropDown
-            user={props.user}
-            onLogout={() =>
-              store.dispatch({
-                type: AUTHENTICATION_LOGOUT_REQUESTED,
-              })
-            }
-          />
+          <DropDown user={props.user} onLogout={() => props.request_logout()} />
         )}
       </Navbar.Collapse>
     </Navbar>
@@ -35,6 +29,8 @@ function PageNavBar(props) {
 PageNavBar.propTypes = {
   authenticated: PropTypes.bool,
   user: PropTypes.object,
+
+  request_logout: PropTypes.func,
 };
 
 const mapStateToProps = function (store) {
@@ -43,5 +39,6 @@ const mapStateToProps = function (store) {
     user: store.authenticationState.user,
   };
 };
+const request_logout = () => ({ type: AUTHENTICATION_LOGOUT_REQUESTED });
 
-export default connect(mapStateToProps)(PageNavBar);
+export default connect(mapStateToProps, { request_logout })(PageNavBar);
