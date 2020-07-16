@@ -59,6 +59,7 @@ const create_project = () => ({
   payload: {
     title: "Untitled project",
     description: "",
+    projectThumbnailBlob: null,
   },
 });
 

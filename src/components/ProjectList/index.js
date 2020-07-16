@@ -38,7 +38,7 @@ const request_projects = () => ({
   type: PROJECTS_LOAD_REQUESTED,
   payload: {
     query: {
-      $select: ["id", "title", "description", "updatedAt"],
+      $select: ["id", "title", "description", "updatedAt", "projectThumbnailBlob"],
       $sort: { createdAt: -1 },
       $limit: 25,
     },

@@ -18,16 +18,43 @@ import { PROJECT_PATCH_REQUESTED } from "../../redux/actionsTypes";
 
 import "./style.css";
 
+const FALLBACK_THUMBNAIL =
+  "data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3" +
+  "aWR0aD0iMTYwcHgiIGhlaWdodD0iMTAwcHgiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0iI" +
+  "0QzRDNEMyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHBhdGggZm" +
+  "lsbC1ydWxlPSJldmVub2RkIiBkPSJNNCAxMUgydjNoMnYtM3ptNS00SDd2N2gyVjd6bTUtNWg" +
+  "tMnYxMmgyVjJ6bS0yLTFhMSAxIDAgMCAwLTEgMXYxMmExIDEgMCAwIDAgMSAxaDJhMSAxIDAg" +
+  "MCAwIDEtMVYyYTEgMSAwIDAgMC0xLTFoLTJ6TTYgN2ExIDEgMCAwIDEgMS0xaDJhMSAxIDAgM" +
+  "CAxIDEgMXY3YTEgMSAwIDAgMS0xIDFIN2ExIDEgMCAwIDEtMS0xVjd6bS01IDRhMSAxIDAgMC" +
+  "AxIDEtMWgyYTEgMSAwIDAgMSAxIDF2M2ExIDEgMCAwIDEtMSAxSDJhMSAxIDAgMCAxLTEtMXY" +
+  "tM3oiLz4NCiAgPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMCAxNC41YS41LjUgMCAw" +
+  "IDEgLjUtLjVoMTVhLjUuNSAwIDAgMSAwIDFILjVhLjUuNSAwIDAgMS0uNS0uNXoiLz4NCjwvc" +
+  "3ZnPg==";
+
+function bufferToImageUrl(buffer) {
+  const blob = new Blob([new Uint8Array(buffer)], { type: "image/png" });
+  return URL.createObjectURL(blob);
+}
+
 class ProjectListItem extends Component {
-  state = {
-    draftProjectTitle: this.props.project.title,
-    draftProjectDescription: this.props.project.description,
-    draftUpdatedAt: this.props.project.updatedAt,
-  };
-  sanitizeConf = {
-    allowedTags: [],
-    allowedAttributes: {},
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      draftProjectTitle: this.props.project.title,
+      draftProjectDescription: this.props.project.description,
+      draftUpdatedAt: this.props.project.updatedAt,
+    };
+
+    this.sanitizeConf = {
+      allowedTags: [],
+      allowedAttributes: {},
+    };
+
+    this.thumbNailImageUrl = this.props.project.projectThumbnailBlob
+      ? bufferToImageUrl(this.props.project.projectThumbnailBlob)
+      : FALLBACK_THUMBNAIL;
+  }
 
   updateDraftField(name, ev) {
     this.setState({ [name]: ev.target.value });
@@ -56,6 +83,11 @@ class ProjectListItem extends Component {
     this.props.request_project_patch(project);
   }
 
+  componentWillUnmount() {
+    if (this.props.project.projectThumbnailBlob)
+      URL.revokeObjectURL(this.thumbNailImageUrl);
+  }
+
   render() {
     return (
       <Col className="mb-4">
@@ -63,7 +95,7 @@ class ProjectListItem extends Component {
           className="project-list-item"
           id={`projectListItem-${this.props.project.id}`}
         >
-          <Card.Img variant="top" src="holder.js/100px160" />
+          <Card.Img variant="top" src={this.thumbNailImageUrl} />
           <Card.Body>
             <Card.Title className="rounded">
               <ContentEditable
