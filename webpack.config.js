@@ -39,7 +39,7 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin({parallel: 1})],
     splitChunks: {
       chunks: "all",
     },
