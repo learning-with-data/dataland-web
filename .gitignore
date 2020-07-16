@@ -4,6 +4,7 @@
 .pnp.js
 
 # testing
+/.nyc_output
 /coverage
 /test/integration/screenshots
 /test/integration/videos

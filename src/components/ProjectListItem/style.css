@@ -15,6 +15,7 @@
 .project-list-item .card-text:focus,
 .project-list-item .card-text:active {
   overflow: auto;
+  display: block;
   -webkit-line-clamp: none;
 }
 
