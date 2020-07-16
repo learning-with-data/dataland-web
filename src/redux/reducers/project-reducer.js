@@ -1,3 +1,5 @@
+import isEmpty from "lodash/isEmpty";
+
 import {
   PROJECT_ADD_SUCCESS,
   PROJECTS_LOAD_SUCCESS,
@@ -47,7 +49,7 @@ function projectsReducer(state = initialState, action) {
         ),
         activeProjectSaveTimestamp: Date.now(),
         activeProject:
-          state.activeProject === {} ? {} : action.payload.patchedProject,
+          isEmpty(state.activeProject) ? {} : action.payload.patchedProject,
       };
     case PROJECT_GET_SUCCESS:
       return {
