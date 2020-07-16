@@ -4,8 +4,25 @@
 
 .project-list-item .card-text {
   min-height: 1.1em;
+  max-height: 4.5em;
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-line-clamp */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.project-list-item .card-body:hover .card-title, .project-list-item .card-body:hover .card-text {
+.project-list-item .card-text:focus,
+.project-list-item .card-text:active {
+  overflow: auto;
+  -webkit-line-clamp: none;
+}
+
+.project-list-item .card-img-top {
+  height: 200px;
+}
+
+.project-list-item .card-body:hover .card-title,
+.project-list-item .card-body:hover .card-text {
   outline: dashed gray 1px;
 }

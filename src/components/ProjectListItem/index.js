@@ -60,7 +60,9 @@ class ProjectListItem extends Component {
     this.setState({ [name]: ev.target.value });
   }
 
-  onFieldBlur(name) {
+  onFieldBlur(name, ev) {
+    ev.target.scrollTo(0, 0);
+
     let project;
 
     if (name === "draftProjectTitle") {
@@ -103,7 +105,7 @@ class ProjectListItem extends Component {
                 onChange={(ev) =>
                   this.updateDraftField("draftProjectTitle", ev)
                 }
-                onBlur={() => this.onFieldBlur("draftProjectTitle")}
+                onBlur={(ev) => this.onFieldBlur("draftProjectTitle", ev)}
               />
             </Card.Title>
             <ContentEditable
@@ -112,7 +114,7 @@ class ProjectListItem extends Component {
               onChange={(ev) =>
                 this.updateDraftField("draftProjectDescription", ev)
               }
-              onBlur={() => this.onFieldBlur("draftProjectDescription")}
+              onBlur={(ev) => this.onFieldBlur("draftProjectDescription", ev)}
             />
           </Card.Body>
           <Card.Footer className="d-flex align-items-center">
