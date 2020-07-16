@@ -1,11 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 
 import { connect } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
-import Gui from "dataland-gui";
 import "dataland-gui/dist/main.css";
 
 import BasePage from "../BasePage";
@@ -15,6 +14,8 @@ import {
   PROJECT_GET_REQUESTED,
   PROJECT_PATCH_REQUESTED,
 } from "../../redux/actionsTypes";
+
+const Gui = React.lazy(() => import("dataland-gui"));
 
 class ProjectPage extends Component {
   componentDidMount() {
@@ -28,23 +29,33 @@ class ProjectPage extends Component {
     } else {
       return (
         <BasePage>
-          <div className="flex-grow-1 d-flex flex-column">
-            <Gui
-              initialProjectTitle={this.props.activeProject.title || ""}
-              backend={true}
-              initialProject={new Uint8Array(this.props.activeProject.projectBlob)}
-              backendCodeSaveHandler={(c) =>
-                this.props.request_project_patch({ projectBlob: c, id: this.props.activeProject.id })
-              }
-              backendCodeSaveInterval={
-                process.env.DATALAND_AUTOSAVE_INTERVAL * 1000
-              }
-              backendCodeSaveTimestamp={this.props.activeProjectSaveTimestamp}
-              backendMetaDataSaveHandler={(p) =>
-                this.props.request_project_patch({...p, id: this.props.activeProject.id})
-              }
-            />
-          </div>
+          <Suspense fallback={<LoadingPage/>}>
+            <div className="flex-grow-1 d-flex flex-column">
+              <Gui
+                initialProjectTitle={this.props.activeProject.title || ""}
+                backend={true}
+                initialProject={
+                  new Uint8Array(this.props.activeProject.projectBlob)
+                }
+                backendCodeSaveHandler={(c) =>
+                  this.props.request_project_patch({
+                    projectBlob: c,
+                    id: this.props.activeProject.id,
+                  })
+                }
+                backendCodeSaveInterval={
+                  process.env.DATALAND_AUTOSAVE_INTERVAL * 1000
+                }
+                backendCodeSaveTimestamp={this.props.activeProjectSaveTimestamp}
+                backendMetaDataSaveHandler={(p) =>
+                  this.props.request_project_patch({
+                    ...p,
+                    id: this.props.activeProject.id,
+                  })
+                }
+              />
+            </div>
+          </Suspense>
         </BasePage>
       );
     }
