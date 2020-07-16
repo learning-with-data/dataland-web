@@ -15,7 +15,7 @@ function ProjectCreateButton(props) {
       placement="bottom"
       delay={{ show: 250, hide: 400 }}
       overlay={
-        <Tooltip id="button-tooltip" {...props}>
+        <Tooltip id="button-tooltip">
           Create a new project and start editing its code
         </Tooltip>
       }
