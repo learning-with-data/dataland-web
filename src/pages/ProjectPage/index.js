@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
 import Gui from "dataland-gui";
-import "dataland-gui/dist/dataland-gui.css";
+import "dataland-gui/dist/main.css";
 
 import BasePage from "../BasePage";
 import LoadingPage from "../LoadingPage";
@@ -30,14 +30,11 @@ class ProjectPage extends Component {
         <BasePage>
           <div className="flex-grow-1 d-flex flex-column">
             <Gui
-              key={this.props.activeProject.id}
-              projectTitle={this.props.activeProject.title || ""}
+              initialProjectTitle={this.props.activeProject.title || ""}
               backend={true}
-              initialCode={new Uint8Array(this.props.activeProject.projectBlob)}
-              // The backend needs the underlying "buffer" of the Uint8Array, otherwise,
-              // we end up with [object Object] string in the DB
+              initialProject={new Uint8Array(this.props.activeProject.projectBlob)}
               backendCodeSaveHandler={(c) =>
-                this.props.request_project_patch({ projectBlob: c.buffer, id: this.props.activeProject.id })
+                this.props.request_project_patch({ projectBlob: c, id: this.props.activeProject.id })
               }
               backendCodeSaveInterval={
                 process.env.DATALAND_AUTOSAVE_INTERVAL * 1000
