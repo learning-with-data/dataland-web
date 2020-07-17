@@ -5,7 +5,6 @@ const CopyPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
@@ -39,7 +38,7 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({parallel: 1})],
+    minimizer: [new TerserPlugin({ parallel: 1 })],
     splitChunks: {
       chunks: "all",
     },
@@ -78,6 +77,5 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name]-[contenthash].css",
     }),
-    new MomentLocalesPlugin(),
   ],
 };

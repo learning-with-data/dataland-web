@@ -46,7 +46,16 @@ describe("The home page", () => {
     cy.contains("#projectListItem-4 .card-text", newDescription);
     cy.reload();
     cy.contains("#projectListItem-4 .card-text", newDescription);
+  });
 
-  }); 
-
+  it("allows shows last modified correctly", () => {
+    // https://day.js.org/docs/en/display/from-now#list-of-breakdown-range
+    cy.get("#projectListItem-5 .card-text")
+      .clear()
+      .type("New description")
+      .blur();
+    cy.get("#projectListItem-5 .updated-timestamp").contains(
+      "a few seconds ago"
+    );
+  });
 });

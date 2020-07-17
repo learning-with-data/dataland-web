@@ -11,7 +11,9 @@ import ContentEditable from "react-contenteditable";
 
 import { Link } from "react-router-dom";
 
-import moment from "moment";
+import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime";
+
 import sanitizeHtml from "sanitize-html";
 
 import { PROJECT_PATCH_REQUESTED } from "../../redux/actionsTypes";
@@ -36,6 +38,8 @@ function bufferToImageUrl(buffer) {
   return URL.createObjectURL(blob);
 }
 
+dayjs.extend(RelativeTime);
+
 class ProjectListItem extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +47,6 @@ class ProjectListItem extends Component {
     this.state = {
       draftProjectTitle: this.props.project.title,
       draftProjectDescription: this.props.project.description,
-      draftUpdatedAt: this.props.project.updatedAt,
     };
 
     this.sanitizeConf = {
@@ -118,8 +121,8 @@ class ProjectListItem extends Component {
             />
           </Card.Body>
           <Card.Footer className="d-flex align-items-center">
-            <small className="text-muted flex-grow-1">
-              Updated: {moment(this.state.draftUpdatedAt).fromNow()}
+            <small className="updated-timestamp text-muted flex-grow-1">
+              Updated: {dayjs(this.props.project.updatedAt).fromNow()}
             </small>
             <Link to={`/projects/${this.props.project.id}`}>
               <Button variant="info" size="sm" className="ml-auto">
