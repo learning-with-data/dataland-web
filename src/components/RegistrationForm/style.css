@@ -1,0 +1,11 @@
+.registration-form {
+    max-width: 350px;
+}
+
+.registration-form .form-group {
+    position: relative;
+}
+
+.registration-form button {
+    width: 100%;
+}

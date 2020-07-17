@@ -4,13 +4,16 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, Redirect } from "react-router-dom";
 
-import { AUTHENTICATION_REQUESTED } from "../../redux/actionsTypes";
+import {
+  AUTHENTICATION_REQUESTED,
+  REGISTRATION_REQUESTED,
+} from "../../redux/actionsTypes";
 
 import BasePage from "../BasePage";
 import LoadingPage from "../LoadingPage";
-import LoginForm from "../../components/LoginForm";
+import RegistrationForm from "../../components/RegistrationForm";
 
-function LoginPage(props) {
+function RegistrationPage(props) {
   let location = useLocation();
   let from = location.state && location.state.from || { pathname: "/" };
 
@@ -23,9 +26,11 @@ function LoginPage(props) {
     return (
       <BasePage>
         <div className="py-5 text-center">
-          <LoginForm
-            errorMessage={props.authErrorMessage}
-            onSubmit={(username, password) => props.request_authentication(username, password)}
+          <RegistrationForm
+            errorMessage={props.registrationErrorMessage}
+            onSubmit={
+              props.request_registration
+            }
           />
         </div>
       </BasePage>
@@ -33,11 +38,11 @@ function LoginPage(props) {
   }
 }
 
-LoginPage.propTypes = {
+RegistrationPage.propTypes = {
   authenticated: PropTypes.bool,
   authenticating: PropTypes.bool,
-  authErrorMessage: PropTypes.string,
-  request_authentication: PropTypes.func,
+  registrationErrorMessage: PropTypes.string,
+  request_registration: PropTypes.func,
   request_reauthentication: PropTypes.func,
 };
 
@@ -45,13 +50,14 @@ const mapStateToProps = function (store) {
   return {
     authenticated: store.authenticationState.authenticated,
     authenticating: store.authenticationState.authenticating,
-    authErrorMessage: store.authenticationState.authErrorMessage,
+    registrationErrorMessage:
+      store.authenticationState.registrationErrorMessage,
   };
 };
 
-const request_authentication = (username, password) => ({
-  type: AUTHENTICATION_REQUESTED,
-  payload: { username: username, password: password },
+const request_registration = (invitationCode, username, email, password) => ({
+  type: REGISTRATION_REQUESTED,
+  payload: { invitationCode, username, email, password },
 });
 const request_reauthentication = () => ({
   type: AUTHENTICATION_REQUESTED,
@@ -59,6 +65,6 @@ const request_reauthentication = () => ({
 });
 
 export default connect(mapStateToProps, {
-  request_authentication,
+  request_registration,
   request_reauthentication,
-})(LoginPage);
+})(RegistrationPage);

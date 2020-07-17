@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import ProjectPage from "./pages/ProjectPage";
+import RegistrationPage from "./pages/RegistrationPage";
 
 function App() {
   return (
@@ -12,6 +13,9 @@ function App() {
       <Switch>
         <Route path="/login">
           <LoginPage />
+        </Route>
+        <Route path="/register">
+          <RegistrationPage />
         </Route>
         <PrivateRoute path="/projects/:pid">
           <ProjectPage/>

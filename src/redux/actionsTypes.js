@@ -4,6 +4,8 @@ export const AUTHENTICATION_SUCCESS = "authentication_success";
 export const AUTHENTICATION_FAILURE = "authentication_failure";
 export const AUTHENTICATION_LOGOUT_REQUESTED = "authentication_logout_requested";
 export const AUTHENTICATION_LOGOUT_SUCCEEDED = "authentication_logout_succeeded";
+export const REGISTRATION_REQUESTED = "authentication_registration_requested";
+export const REGISTRATION_FAILURE = "authentication_registration_failure";
 
 // projects
 export const PROJECTS_LOAD_REQUESTED = "projects_load_request";

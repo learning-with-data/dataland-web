@@ -41,12 +41,33 @@ function* logout() {
   yield put({ type: actionTypes.AUTHENTICATION_LOGOUT_SUCCEEDED });
 }
 
+function* register(action) {
+  const usersService = apiClient.service("users");
+  try {
+    yield usersService.create(action.payload);
+    // If registration succeeds, we directly log in user
+    yield put({
+      type: actionTypes.AUTHENTICATION_REQUESTED,
+      payload: {
+        username: action.payload.username,
+        password: action.payload.password,
+      },
+    });
+  } catch (e) {
+    yield put({ type: actionTypes.REGISTRATION_FAILURE, payload: e.message });
+  }
+}
+
 function* watchAuthenticationRequested() {
   yield takeEvery(actionTypes.AUTHENTICATION_REQUESTED, authenticate);
 }
 
 function* watchLogoutRequested() {
   yield takeEvery(actionTypes.AUTHENTICATION_LOGOUT_REQUESTED, logout);
+}
+
+function* watchRegistrationRequested() {
+  yield takeEvery(actionTypes.REGISTRATION_REQUESTED, register);
 }
 
 // --------
@@ -115,6 +136,7 @@ export default function* root() {
   yield all([
     fork(watchAuthenticationRequested),
     fork(watchLogoutRequested),
+    fork(watchRegistrationRequested),
     fork(watchProjectsLoadRequested),
     fork(watchProjectAddRequested),
     fork(watchProjectPatchRequested),

@@ -2,6 +2,7 @@ import {
   AUTHENTICATION_FAILURE,
   AUTHENTICATION_LOGOUT_SUCCEEDED,
   AUTHENTICATION_SUCCESS,
+  REGISTRATION_FAILURE,
 } from "../actionsTypes";
 
 const initialState = {
@@ -9,12 +10,14 @@ const initialState = {
   authenticated: false,
   user: {},
   authErrorMessage: "",
+  registrationErrorMessage: "",
 };
 
 function authenticationReducer(state = initialState, action) {
   switch (action.type) {
     case AUTHENTICATION_FAILURE:
       return {
+        ...state,
         authenticating: false,
         authenticated: false,
         user: {},
@@ -22,6 +25,7 @@ function authenticationReducer(state = initialState, action) {
       };
     case AUTHENTICATION_LOGOUT_SUCCEEDED:
       return {
+        ...state,
         authenticating: false,
         authenticated: false,
         user: {},
@@ -29,10 +33,16 @@ function authenticationReducer(state = initialState, action) {
       };
     case AUTHENTICATION_SUCCESS:
       return {
+        ...state,
         authenticating: false,
         authenticated: true,
         user: action.payload,
         authErrorMessage: "",
+      };
+    case REGISTRATION_FAILURE:
+      return {
+        ...state,
+        registrationErrorMessage: action.payload,
       };
     default:
       return state;
