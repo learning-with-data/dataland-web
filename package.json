@@ -10,6 +10,7 @@
     "lint": "eslint src test",
     "pretest": "npm run lint",
     "test": "cypress run --browser chrome --headless",
+    "posttest": "nyc report",
     "cypress:open": "cypress open"
   },
   "author": {
