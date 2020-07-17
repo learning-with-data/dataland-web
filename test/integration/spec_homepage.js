@@ -58,4 +58,23 @@ describe("The home page", () => {
       "a few seconds ago"
     );
   });
+
+  it("shows an error when a database operation fails", () => {
+    // TODO: We need a better version of this, potentially by mocking
+    // the underlying WebSocket.
+    // See https://github.com/cypress-io/cypress/issues/2492
+    //
+    // Currently, the database error is triggered by setting a title
+    // field to longer than what is defined in the backend ORM (255 chars)
+    const longTitle = "a".repeat(260);
+    cy.get("#projectListItem-5 .card-title div").clear().type(longTitle).blur();
+
+    // Error dialog shows up
+    cy.get(".error-notification").contains("Whoops!");
+    cy.get(".error-notification").contains("Data too long");
+
+    // Dismiss the error
+    cy.get(".error-notification .close").click();
+    cy.get(".error-notification").should("not.exist");
+  });
 });

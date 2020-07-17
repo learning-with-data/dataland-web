@@ -17,3 +17,7 @@ export const PROJECT_PATCH_SUCCESS = "project_patch_success";
 export const PROJECT_GET_REQUESTED = "project_get_requested";
 export const PROJECT_GET_SUCCESS = "project_get_success";
 export const ACTIVE_PROJECT_UNLOADED = "active_project_unloaded";
+
+// errors
+export const ERROR_OCCURRED = "error_occurred";
+export const ERROR_DISMISSED = "error_dismissed";

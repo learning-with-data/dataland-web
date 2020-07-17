@@ -81,39 +81,71 @@ function* watchRegistrationRequested() {
 
 function* loadProjects(action) {
   const projectsService = apiClient.service("projects");
-  const projectsPage = yield projectsService.find(action.payload);
-  yield put({
-    type: actionTypes.PROJECTS_LOAD_SUCCESS,
-    payload: projectsPage.data,
-  });
+
+  try {
+    const projectsPage = yield projectsService.find(action.payload);
+    yield put({
+      type: actionTypes.PROJECTS_LOAD_SUCCESS,
+      payload: projectsPage.data,
+    });
+  } catch (e) {
+    yield put({
+      type: actionTypes.ERROR_OCCURRED,
+      payload: e,
+    });
+  }
 }
 
 function* addProject(action) {
   const projectsService = apiClient.service("projects");
-  const newProject = yield projectsService.create(action.payload);
-  yield put({ type: actionTypes.PROJECT_ADD_SUCCESS, payload: newProject });
+
+  try {
+    const newProject = yield projectsService.create(action.payload);
+    yield put({ type: actionTypes.PROJECT_ADD_SUCCESS, payload: newProject });
+  } catch (e) {
+    yield put({
+      type: actionTypes.ERROR_OCCURRED,
+      payload: e,
+    });
+  }
 }
 
 function* patchProject(action) {
   const projectsService = apiClient.service("projects");
-  const patchedProject = yield projectsService.patch(
-    action.payload.id,
-    action.payload
-  );
-  yield put({
-    type: actionTypes.PROJECT_PATCH_SUCCESS,
-    payload: { patchedProject: patchedProject },
-  });
+
+  try {
+    const patchedProject = yield projectsService.patch(
+      action.payload.id,
+      action.payload
+    );
+    yield put({
+      type: actionTypes.PROJECT_PATCH_SUCCESS,
+      payload: { patchedProject: patchedProject },
+    });
+  } catch (e) {
+    yield put({
+      type: actionTypes.ERROR_OCCURRED,
+      payload: e,
+    });
+  }
 }
 
 function* getProject(action) {
   const projectsService = apiClient.service("projects");
-  const project = yield projectsService.get(action.payload);
 
-  yield put({
-    type: actionTypes.PROJECT_GET_SUCCESS,
-    payload: project,
-  });
+  try {
+    const project = yield projectsService.get(action.payload);
+
+    yield put({
+      type: actionTypes.PROJECT_GET_SUCCESS,
+      payload: project,
+    });
+  } catch (e) {
+    yield put({
+      type: actionTypes.ERROR_OCCURRED,
+      payload: e,
+    });
+  }
 }
 
 function* watchProjectsLoadRequested() {
