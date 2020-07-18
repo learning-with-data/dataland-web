@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import ProjectPage from "./pages/ProjectPage";
 import RegistrationPage from "./pages/RegistrationPage";
@@ -16,6 +17,9 @@ function App() {
         </Route>
         <Route path="/register">
           <RegistrationPage />
+        </Route>
+        <Route path="/not-found">
+          <NotFoundPage/>
         </Route>
         <PrivateRoute path="/projects/:pid">
           <ProjectPage/>

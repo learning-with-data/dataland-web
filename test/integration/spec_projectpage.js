@@ -89,4 +89,10 @@ describe("The project page", () => {
       cy.get(`[data-id="${blockid}"]`).should("not.exist");
     });
   });
+
+  it("should redirect to the not found location when a project cannot be found", () => {
+    cy.visit("/projects/1000");
+    cy.url().should("match", /not-found/);
+    cy.contains("Not found");
+  });
 });
