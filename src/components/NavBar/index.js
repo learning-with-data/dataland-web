@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import Navbar from "react-bootstrap/Navbar";
 
-import { AUTHENTICATION_LOGOUT_REQUESTED } from "../../redux/actionsTypes";
+import { request_logout } from "../../redux/actionCreators";
 
 import DropDown from "./dropdown";
 
@@ -39,6 +39,5 @@ const mapStateToProps = function (store) {
     user: store.authenticationState.user,
   };
 };
-const request_logout = () => ({ type: AUTHENTICATION_LOGOUT_REQUESTED });
 
 export default connect(mapStateToProps, { request_logout })(PageNavBar);

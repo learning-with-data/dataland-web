@@ -6,7 +6,7 @@ import {
   PROJECT_PATCH_SUCCESS,
   PROJECT_GET_SUCCESS,
   ACTIVE_PROJECT_UNLOADED,
-} from "../actionsTypes";
+} from "../actionTypes";
 
 const initialState = {
   projects: [],

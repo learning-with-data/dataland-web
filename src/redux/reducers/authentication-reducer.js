@@ -3,7 +3,7 @@ import {
   AUTHENTICATION_LOGOUT_SUCCEEDED,
   AUTHENTICATION_SUCCESS,
   REGISTRATION_FAILURE,
-} from "../actionsTypes";
+} from "../actionTypes";
 
 const initialState = {
   authenticating: true,

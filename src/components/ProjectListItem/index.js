@@ -16,7 +16,7 @@ import RelativeTime from "dayjs/plugin/relativeTime";
 
 import sanitizeHtml from "sanitize-html";
 
-import { PROJECT_PATCH_REQUESTED } from "../../redux/actionsTypes";
+import { request_project_patch } from "../../redux/actionCreators";
 
 import "./style.css";
 
@@ -156,10 +156,5 @@ ProjectListItem.propTypes = {
 
   request_project_patch: PropTypes.func,
 };
-
-const request_project_patch = (project) => ({
-  type: PROJECT_PATCH_REQUESTED,
-  payload: project,
-});
 
 export default connect(null, { request_project_patch })(ProjectListItem);

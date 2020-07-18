@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import { useLocation, Redirect } from "react-router-dom";
 
 import {
-  AUTHENTICATION_REQUESTED,
-  REGISTRATION_REQUESTED,
-} from "../../redux/actionsTypes";
+  request_registration,
+  request_reauthentication,
+} from "../../redux/actionCreators";
 
 import BasePage from "../BasePage";
 import LoadingPage from "../LoadingPage";
@@ -15,7 +15,7 @@ import RegistrationForm from "../../components/RegistrationForm";
 
 function RegistrationPage(props) {
   let location = useLocation();
-  let from = location.state && location.state.from || { pathname: "/" };
+  let from = (location.state && location.state.from) || { pathname: "/" };
 
   if (props.authenticated === true) {
     return <Redirect to={from} />;
@@ -28,9 +28,7 @@ function RegistrationPage(props) {
         <div className="py-5 text-center">
           <RegistrationForm
             errorMessage={props.registrationErrorMessage}
-            onSubmit={
-              props.request_registration
-            }
+            onSubmit={props.request_registration}
           />
         </div>
       </BasePage>
@@ -54,15 +52,6 @@ const mapStateToProps = function (store) {
       store.authenticationState.registrationErrorMessage,
   };
 };
-
-const request_registration = (invitationCode, username, email, password) => ({
-  type: REGISTRATION_REQUESTED,
-  payload: { invitationCode, username, email, password },
-});
-const request_reauthentication = () => ({
-  type: AUTHENTICATION_REQUESTED,
-  payload: { reauthentication: true },
-});
 
 export default connect(mapStateToProps, {
   request_registration,

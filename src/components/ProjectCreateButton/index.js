@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-import { PROJECT_ADD_REQUESTED } from "../../redux/actionsTypes";
+import { create_project } from "../../redux/actionCreators";
 
 function ProjectCreateButton(props) {
   return (
@@ -53,14 +53,5 @@ function ProjectCreateButton(props) {
 ProjectCreateButton.propTypes = {
   create_project: PropTypes.func,
 };
-
-const create_project = () => ({
-  type: PROJECT_ADD_REQUESTED,
-  payload: {
-    title: "Untitled project",
-    description: "",
-    projectThumbnailBlob: null,
-  },
-});
 
 export default connect(null, { create_project })(ProjectCreateButton);

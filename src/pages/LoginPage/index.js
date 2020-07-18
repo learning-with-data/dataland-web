@@ -4,7 +4,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, Redirect } from "react-router-dom";
 
-import { AUTHENTICATION_REQUESTED } from "../../redux/actionsTypes";
+import {
+  request_authentication,
+  request_reauthentication,
+} from "../../redux/actionCreators";
 
 import BasePage from "../BasePage";
 import LoadingPage from "../LoadingPage";
@@ -12,7 +15,7 @@ import LoginForm from "../../components/LoginForm";
 
 function LoginPage(props) {
   let location = useLocation();
-  let from = location.state && location.state.from || { pathname: "/" };
+  let from = (location.state && location.state.from) || { pathname: "/" };
 
   if (props.authenticated === true) {
     return <Redirect to={from} />;
@@ -25,7 +28,9 @@ function LoginPage(props) {
         <div className="py-5 text-center">
           <LoginForm
             errorMessage={props.authErrorMessage}
-            onSubmit={(username, password) => props.request_authentication(username, password)}
+            onSubmit={(username, password) =>
+              props.request_authentication(username, password)
+            }
           />
         </div>
       </BasePage>
@@ -48,15 +53,6 @@ const mapStateToProps = function (store) {
     authErrorMessage: store.authenticationState.authErrorMessage,
   };
 };
-
-const request_authentication = (username, password) => ({
-  type: AUTHENTICATION_REQUESTED,
-  payload: { username: username, password: password },
-});
-const request_reauthentication = () => ({
-  type: AUTHENTICATION_REQUESTED,
-  payload: { reauthentication: true },
-});
 
 export default connect(mapStateToProps, {
   request_authentication,

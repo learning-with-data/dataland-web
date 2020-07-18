@@ -8,7 +8,7 @@ import Toast from "react-bootstrap/Toast";
 import dayjs from "dayjs";
 import RelativeTime from "dayjs/plugin/relativeTime";
 
-import { ERROR_DISMISSED } from "../../redux/actionsTypes";
+import { error_dismissed } from "../../redux/actionCreators";
 
 function ErrorNotifierComponent(props) {
   dayjs.extend(RelativeTime);
@@ -69,11 +69,6 @@ const mapStateToProps = function (store) {
     errors: store.errorState.errors,
   };
 };
-
-const error_dismissed = (error_id) => ({
-  type: ERROR_DISMISSED,
-  payload: error_id,
-});
 
 export default connect(mapStateToProps, { error_dismissed })(
   ErrorNotifierComponent

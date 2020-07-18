@@ -1,4 +1,4 @@
-import { ERROR_DISMISSED, ERROR_OCCURRED } from "../actionsTypes";
+import { ERROR_DISMISSED, ERROR_OCCURRED } from "../actionTypes";
 
 const initialState = {
   errors: [],

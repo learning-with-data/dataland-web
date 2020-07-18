@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
 import apiClient from "../../lib/api";
-import * as actionTypes from "../actionsTypes";
+import * as actionTypes from "../actionTypes";
 
 // ----------------
 // Authentication

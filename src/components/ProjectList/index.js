@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Row from "react-bootstrap/Row";
 
-import { PROJECTS_LOAD_REQUESTED } from "../../redux/actionsTypes";
+import { request_projects } from "../../redux/actionCreators";
 import ProjectListItem from "../ProjectListItem";
 
 class ProjectList extends Component {
@@ -33,16 +33,5 @@ const mapStateToProps = function (store) {
     projects: store.projectsState.projects,
   };
 };
-
-const request_projects = () => ({
-  type: PROJECTS_LOAD_REQUESTED,
-  payload: {
-    query: {
-      $select: ["id", "title", "description", "updatedAt", "projectThumbnailBlob"],
-      $sort: { createdAt: -1 },
-      $limit: 25,
-    },
-  },
-});
 
 export default connect(mapStateToProps, { request_projects })(ProjectList);

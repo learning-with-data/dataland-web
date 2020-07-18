@@ -10,10 +10,10 @@ import "dataland-gui/dist/main.css";
 import BasePage from "../BasePage";
 import LoadingPage from "../LoadingPage";
 import {
-  ACTIVE_PROJECT_UNLOADED,
-  PROJECT_GET_REQUESTED,
-  PROJECT_PATCH_REQUESTED,
-} from "../../redux/actionsTypes";
+  request_project_get,
+  request_project_patch,
+  unload_active_project,
+} from "../../redux/actionCreators";
 
 const Gui = React.lazy(() => import("dataland-gui"));
 
@@ -29,7 +29,7 @@ class ProjectPage extends Component {
     } else {
       return (
         <BasePage>
-          <Suspense fallback={<LoadingPage/>}>
+          <Suspense fallback={<LoadingPage />}>
             <div className="flex-grow-1 d-flex flex-column">
               <Gui
                 initialProjectTitle={this.props.activeProject.title || ""}
@@ -82,16 +82,6 @@ const mapStateToProps = function (store) {
     activeProjectSaveTimestamp: store.projectsState.activeProjectSaveTimestamp,
   };
 };
-
-const request_project_get = (pid) => ({
-  type: PROJECT_GET_REQUESTED,
-  payload: pid,
-});
-const request_project_patch = (project) => ({
-  type: PROJECT_PATCH_REQUESTED,
-  payload: project,
-});
-const unload_active_project = () => ({ type: ACTIVE_PROJECT_UNLOADED });
 
 export default connect(mapStateToProps, {
   request_project_get,
