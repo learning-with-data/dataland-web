@@ -50,6 +50,15 @@ module.exports = {
       "react-dom": path.join(process.cwd(), "node_modules/react-dom"),
       React: path.join(process.cwd(), "node_modules/react"),
       ReactDOM: path.join(process.cwd(), "node_modules/react-dom"),
+      "react-bootstrap": path.join(
+        process.cwd(),
+        "node_modules/react-bootstrap"
+      ),
+      bootstrap: path.join(process.cwd(), "node_modules/bootstrap"),
+      dayjs: path.join(process.cwd(), "node_modules/dayjs"),
+      "react-redux": path.join(process.cwd(), "node_modules/react-redux"),
+      redux: path.join(process.cwd(), "node_modules/redux"),
+      lodash: path.join(process.cwd(), "node_modules/lodash"),
     },
   },
   devServer: {
