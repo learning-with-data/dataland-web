@@ -4,14 +4,17 @@ import { Link } from "react-router-dom";
 
 import BasePage from "../BasePage";
 
-import ExclamationCircleFill from "bootstrap-icons/icons/exclamation-circle-fill.svg";
+import ExclamationCircleFillIcon from "bootstrap-icons/icons/exclamation-circle-fill.svg";
 
 function NotFoundPage() {
   return (
     <BasePage>
       <div className="py-5 text-center alert alert-warning" role="alert">
         <h2>
-          <ExclamationCircleFill className="mr-2 align-text-top" />
+          <ExclamationCircleFillIcon
+            title="error ss"
+            className="mr-2 align-text-top"
+          />
           Not found
         </h2>
         <p className="mt-5 lead">
