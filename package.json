@@ -57,7 +57,7 @@
     "bootstrap-icons": "^1.0.0-alpha5",
     "dataland-gui": "git+https://github.com/learning-with-data/dataland-gui.git",
     "dayjs": "^1.8.29",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-bootstrap": "^1.2.2",
     "react-contenteditable": "^3.3.4",
